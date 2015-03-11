@@ -1,51 +1,70 @@
-from __future__ import absolute_import, print_function
-
 from decimal import Decimal
-from datetime import date
+from datetime import datetime
+from pony.orm import *
 
-from pony.orm.core import *
+db = Database("sqlite", "database.sqlite", create_db=True)
 
-db = Database()
-
-class Department(db.Entity):
-    number = PrimaryKey(int, auto=True)
-    name = Required(str, unique=True)
-    groups = Set("Group")
-    courses = Set("Course")
-
-class Group(db.Entity):
-    number = PrimaryKey(int)
-    major = Required(str)
-    dept = Required("Department")
-    students = Set("Student")
-
-class Course(db.Entity):
-    name = Required(str)
-    semester = Required(int)
-    lect_hours = Required(int)
-    lab_hours = Required(int)
-    credits = Required(int)
-    dept = Required(Department)
-    students = Set("Student")
-    PrimaryKey(name, semester)
-
-class Student(db.Entity):
-    # _table_ = "public", "Students"  # Schema support
+class Advs(db.Entity):
     id = PrimaryKey(int, auto=True)
+    user = Required("User")
     name = Required(str)
-    dob = Required(date)
-    tel = Optional(str)
-    picture = Optional(buffer, lazy=True)
-    gpa = Required(float, default=0)
-    group = Required(Group)
-    courses = Set(Course)
+    year = Required(int)
+    price = Required(int)
+    comments = Required(LongStr)
+    mileage = Optional(Decimal)
+    car = Required("Car")
+    photos = Set("Photo")
 
-sql_debug(True)  # Output all SQL queries to stdout
 
-db.bind('sqlite', 'university.sqlite', create_db=True)
-#db.bind('mysql', host="localhost", user="presentation", passwd="pony", db="presentation")
-#db.bind('postgres', user='presentation', password='pony', host='localhost', database='presentation')
-#db.bind('oracle', 'presentation/pony@localhost')
+class User(db.Entity):
+    _table_ = "Users"
+    login = PrimaryKey(str)
+    password = Required(str)
+    email = Required(LongStr)
+    status = Required(str)
+    county = Required(str)
+    FIO = Optional(LongStr)
+    telephone = Required(int)
+    city = Required(str)
+    messages = Set("Message")
+    advss = Set(Advs)
+    type = Required(unicode)
+    comments = Set("Comment")
+
+
+class Photo(db.Entity):
+    _table_ = "Photos"
+    id = PrimaryKey(int, auto=True)
+    filename = Required(str)
+    advs = Required(Advs)
+
+
+class Message(db.Entity):
+    id = PrimaryKey(int, auto=True)
+    userto = Required(str)
+    datetime = Required(datetime)
+    content = Required(str, 500, lazy=True)
+    user = Required(User)
+
+
+class Car(db.Entity):
+    model = Required(str)
+    automark = Required(str)
+    advss = Set(Advs)
+    comments = Set("Comment")
+    approved = Required(bool)
+    PrimaryKey(model, automark)
+
+
+class Comment(db.Entity):
+    id = PrimaryKey(int, auto=True)
+    user = Required(User)
+    car = Required(Car)
+    content = Required(str, 1000)
+    mark = Required(int)
+
+
+sql_debug(True)
 
 db.generate_mapping(create_tables=True)
 

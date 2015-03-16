@@ -9,28 +9,30 @@ sql_debug(True)
 @app.route('/')
 @db_session
 def index():
-    return render_template("index.html")
-
-@app.route('/departments')
-@db_session
-def get_departments():
-    departments = Department.select().order_by(Department.number)
-    return to_json(db, departments, include=[Department.groups, Department.courses])
-
-@app.route('/course-students/<name>/<semester>')
-@db_session
-def get_course_students(name, semester):
-    students = Course[name, semester].students
-    return to_json(db, {'students': students})
-
-@app.route('/group-students/<number>')
-@db_session
-def get_group_students(number):
-    students = Group[number].students
-    return to_json(db, {'students': students})
+    users = User.select()
+    return render_template("index.html",users=users)
+#
+# @app.route('/adv')
+# @db_session
+# def get_departments():
+#     # departments = Department.select().order_by(Department.number)
+#     # return to_json(db, departments, include=[Department.groups, Department.courses])
+#
+# @app.route('/course-students/<name>/<semester>')
+# @db_session
+# def get_course_students(name, semester):
+#     students = Course[name, semester].students
+#     return to_json(db, {'students': students})
+#
+# @app.route('/group-students/<number>')
+# @db_session
+# def get_group_students(number):
+#     students = Group[number].students
+#     return to_json(db, {'students': students})
 
 @app.route('/update', methods=['POST'])
 @db_session
+
 def update():
     ormdata = request.form['ormdata']
     save_changes(db, ormdata)

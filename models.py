@@ -90,7 +90,22 @@ def populate_database():
               county = "GB", FIO = "ser John Brown",
               telephone = 73542622, city = "London",
               type=0)
-
+    c1 = Car( model = "Ceed", automark = "KIA", approved = 0,
+            transmission = "Mehanic", color = "Red",
+            motor_power = 126, body_type = "hatchback",
+            motor_type = "disel", rudder = "left"  )       
+    c2 = Car( model = "Cerato", automark = "KIA", approved = 0,
+            transmission = "Avtomat", color = "blue",
+            motor_power = 160, body_type = "sedan",
+            motor_type = "gasoline", rudder = "right"  )   
+    c3 = Car( model = "Focus", automark = "Ford", approved = 1,
+            transmission = "Mehanic", color = "Grin",
+            motor_power = 98, body_type = "hatchback",
+            motor_type = "disel", rudder = "left"  )     
+    c4 = Car( model = "Cruze", automark = "Chevrolet", approved = 0,
+            transmission = "Mehanic", color = "blac",
+            motor_power = 145, body_type = "wagon",
+            motor_type = "gasoline", rudder = "left"  )            
     # d2 = Department(name="Department of Mathematical Sciences")
     # d3 = Department(name="Department of Applied Physics")
     #

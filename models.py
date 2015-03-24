@@ -111,7 +111,13 @@ def populate_database():
     c4 = Car( model = "Cruze", automark = "Chevrolet", approved = 0,
             transmission = "Mehanic", color = "blac",
             motor_power = 145, body_type = "wagon",
-            motor_type = "gasoline", rudder = "left"  )            
+            motor_type = "gasoline", rudder = "left"  )         
+    Com1 = Comment (id = 1, user = u1,
+            car = c1, content = "Машина отличная мне понравилась всем советуюю на пять  сплюсом",
+            mark = 5) 
+    Com2 = Comment (id = 2, user = u1,
+            car = c2, content = ""Эта модедь мне не очень понравилась эта модель на любителя,
+            mark = 2) 
     # d2 = Department(name="Department of Mathematical Sciences")
     # d3 = Department(name="Department of Applied Physics")
     #

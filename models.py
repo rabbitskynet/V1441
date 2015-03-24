@@ -56,6 +56,12 @@ class Car(db.Entity):
     advs = Set(Adv)
     comments = Set("Comment")
     approved = Required(bool)
+    transmission = Optional(str, unique=True)
+    color = Optional(str)
+    motor_power = Optional(float, unique=True)
+    body_type = Optional(str, unique=True)
+    motor_type = Optional(str, unique=True)
+    rudder = Optional(str)
     PrimaryKey(model, automark)
 
 

@@ -1,3 +1,4 @@
+# coding=utf-8
 from decimal import Decimal
 from datetime import datetime
 from pony.orm import *
@@ -56,11 +57,11 @@ class Car(db.Entity):
     advs = Set(Adv)
     comments = Set("Comment")
     approved = Required(bool)
-    transmission = Optional(str, unique=True)
+    transmission = Optional(str)
     color = Optional(str)
-    motor_power = Optional(float, unique=True)
-    body_type = Optional(str, unique=True)
-    motor_type = Optional(str, unique=True)
+    motor_power = Optional(float)
+    body_type = Optional(str)
+    motor_type = Optional(str)
     rudder = Optional(str)
     PrimaryKey(model, automark)
 
@@ -97,26 +98,28 @@ def populate_database():
               telephone = 73542622, city = "London",
               type=0)
     c1 = Car( model = "Ceed", automark = "KIA", approved = 0,
-            transmission = "Mehanic", color = "Red",
-            motor_power = 126, body_type = "hatchback",
-            motor_type = "disel", rudder = "left"  )       
+            transmission = "mechanic", color = "red",
+            motor_power = 1.2, body_type = "hatchback",
+            motor_type = "diesel", rudder = "left"  )
     c2 = Car( model = "Cerato", automark = "KIA", approved = 0,
-            transmission = "Avtomat", color = "blue",
-            motor_power = 160, body_type = "sedan",
+            transmission = "automate", color = "blue",
+            motor_power = 4.4, body_type = "sedan",
             motor_type = "gasoline", rudder = "right"  )   
     c3 = Car( model = "Focus", automark = "Ford", approved = 1,
-            transmission = "Mehanic", color = "Grin",
-            motor_power = 98, body_type = "hatchback",
-            motor_type = "disel", rudder = "left"  )     
+            transmission = "mechanic", color = "green",
+            motor_power = 2.4, body_type = "hatchback",
+            motor_type = "diesel", rudder = "left"  )
     c4 = Car( model = "Cruze", automark = "Chevrolet", approved = 0,
-            transmission = "Mehanic", color = "blac",
-            motor_power = 145, body_type = "wagon",
-            motor_type = "gasoline", rudder = "left"  )         
+            transmission = "mechanic", color = "black",
+            motor_power = 3.4, body_type = "wagon",
+            motor_type = "gasoline", rudder = "left"  )
     Com1 = Comment (id = 1, user = u1,
-            car = c1, content = "Машина отличная мне понравилась всем советуюю на пять  сплюсом",
+            car = c1, content = "Good car",
+			#Машина отличная мне понравилась всем советуюю на пять  сплюсом
             mark = 5) 
     Com2 = Comment (id = 2, user = u1,
-            car = c2, content = ""Эта модедь мне не очень понравилась эта модель на любителя,
+            car = c2, content = "Not a good car",
+			#Эта модедь мне не очень понравилась эта модель на любителя
             mark = 2) 
     # d2 = Department(name="Department of Mathematical Sciences")
     # d3 = Department(name="Department of Applied Physics")

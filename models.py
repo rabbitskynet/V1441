@@ -134,6 +134,19 @@ def populate_database():
 	P10 = Photo(id=10, filename ="photo10",adv=4)
 	P11 = Photo(id=11, filename ="photo11",adv=4)
 	P12 = Photo(id=12, filename ="photo12",adv=4)
+	
+	a1 = Adv( id=1,	user=u1, name="Prodaga mahin",
+			year=2000, price=150000,
+			mileage=65000, car=c1, comments="God Tachka")
+	a2 = Adv( id=1,	user=u2, name="God mahin",
+			year=1995, price=100000,
+			mileage=180000, car=c2, comments="God Tachka Syper")
+	a3 = Adv( id=1,	user=u3, name="Prodaga sypers mahin",
+			year=2006, price=2000000,
+			mileage=32000, car=c3, comments="Tachka")
+	a4 = Adv( id=1,	user=u1, name="Tachka",
+			year=2012, price=250000,
+			mileage=48000, car=c4, comments="God Tachka")		
 	# d2 = Department(name="Department of Mathematical Sciences")
 	# d3 = Department(name="Department of Applied Physics")
 	#

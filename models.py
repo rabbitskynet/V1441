@@ -121,6 +121,19 @@ def populate_database():
 	Com2 = Comment(id=2, user=u1,
 				   car=c2, content="Not a good car",  # Эта модедь мне не очень понравилась эта модель на любителя
 				   mark=2)
+				   
+	P1 = Photo(id=1, filename ="photo1",adv=1)
+	P2 = Photo(id=2, filename ="photo2",adv=1)
+	P3 = Photo(id=3, filename ="photo3",adv=1)
+	P4 = Photo(id=4, filename ="photo4",adv=2)
+	P5 = Photo(id=5, filename ="photo5",adv=2)
+	P6 = Photo(id=6, filename ="photo6",adv=2)
+	P7 = Photo(id=7, filename ="photo7",adv=3)
+	P8 = Photo(id=8, filename ="photo8",adv=3)
+	P9 = Photo(id=9, filename ="photo9",adv=3)
+	P10 = Photo(id=10, filename ="photo10",adv=4)
+	P11 = Photo(id=11, filename ="photo11",adv=4)
+	P12 = Photo(id=12, filename ="photo12",adv=4)
 	# d2 = Department(name="Department of Mathematical Sciences")
 	# d3 = Department(name="Department of Applied Physics")
 	#

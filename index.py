@@ -11,15 +11,21 @@ sql_debug(True)
 @app.route('/')
 @db_session
 def index():
-	cars = select(c for c in Car)
+	automarks = select(c.automark for c  in Car)
 	users = select(u for u in User)
-	return render_template("index.html", cars=cars, users=users)
+	return render_template("index.html", automarks=automarks, users=users)
 
-@app.route('/model/<name>')
+@app.route('/automark/<name>')
 @db_session
 def get_model(name):
-	cars = select(c for c in Car if c.model == name)
-	return render_template("models.html", name=name, cars=cars)
+	cars = select(c for c in Car if c.automark == name)
+	return render_template("automark.html", name=name, cars=cars)
+
+@app.route('/user/<name>')
+@db_session
+def get_user(name):
+    user = User[name]
+    return render_template("user.html", user=user)
 
 #
 # @app.route('/adv')

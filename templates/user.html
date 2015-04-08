@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>PonyAuto {{ user.login }} user</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    .container {
+		margin-top: 70px;
+    }
+	.disabled{
+		background-color: #FFA4A4;
+		border-radius: 3px;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+	}
+	
+	.list {
+		width: 35em;
+		background-color: #EBEBEB;
+		list-style-image: url(arrow.png);
+		font-family: Verdana, Helvetica, sans-serif;
+		font-size: 14px;
+		padding: 15px;
+		border-radius: 20px;
+		-moz-border-radius: 20px;
+		-webkit-border-radius: 20px;
+	}
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="col-md-12">
+            <a href="/">Назад</a>
+        </div>
+        <div class="col-md-6 list">
+            <div>
+                <b>{{ user.login }}</b>
+            </div>
+            <div>
+                <b>{{ user.email }}</b>
+            </div>
+            <div>
+                {{ user.FIO }}
+            </div>
+            <div>
+                {{ user.county }}
+            </div>
+            <div>
+                {{ user.city }}
+            </div>
+            <div>
+                {{ user.telephone }}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

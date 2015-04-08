@@ -122,32 +122,32 @@ def populate_database():
 				   car=c2, content=u"Эта модедь мне не очень понравилась эта модель на любителя",
 				   mark=2)
 				   
-	a1 = Adv(id=1, user=u1, name="Prodaga mahin",
+	a1 = Adv(user=u1, name=u"Тачка ОГОНЬ",
 			year=2000, price=150000,
-			mileage=65000, car=c1, comments="God Tachka")
-	a2 = Adv(id=2, user=u2, name="God mahin",
+			mileage=65000, car=c1, comments=u"Быстрая, мощная, без документов")
+	a2 = Adv(user=u2, name=u"Продам ласточку",
 			year=1995, price=100000,
-			mileage=180000, car=c2, comments="God Tachka Syper")
-	a3 = Adv(id=3, user=u3, name="Prodaga sypers mahin",
+			mileage=180000, car=c2, comments=u"Хорошая машина, долго служила")
+	a3 = Adv(user=u3, name=u"Продаю супер машину",
 			year=2006, price=2000000,
-			mileage=32000, car=c3, comments="Tachka")
-	a4 = Adv(id=4,user=u1, name="Tachka",
+			mileage=32000, car=c3, comments=u"Хорошая машинка, битая немного")
+	a4 = Adv(user=u1, name=u"Шевролет",
 			year=2012, price=250000,
-			mileage=48000, car=c4, comments="God Tachka")		
+			mileage=48000, car=c4, comments=u"Хорошая, быстро стартует, немного пороги битые")
 
 
-	P1 = Photo(id=1, filename ="photo1",adv=1)
-	P2 = Photo(id=2, filename ="photo2",adv=1)
-	P3 = Photo(id=3, filename ="photo3",adv=1)
-	P4 = Photo(id=4, filename ="photo4",adv=2)
-	P5 = Photo(id=5, filename ="photo5",adv=2)
-	P6 = Photo(id=6, filename ="photo6",adv=2)
-	P7 = Photo(id=7, filename ="photo7",adv=3)
-	P8 = Photo(id=8, filename ="photo8",adv=3)
-	P9 = Photo(id=9, filename ="photo9",adv=3)
-	P10 = Photo(id=10, filename ="photo10",adv=4)
-	P11 = Photo(id=11, filename ="photo11",adv=4)
-	P12 = Photo(id=12, filename ="photo12",adv=4)
+	P1 = Photo(filename ="photo1",adv=a1)
+	P2 = Photo(filename ="photo2",adv=a1)
+	P3 = Photo(filename ="photo3",adv=a1)
+	P4 = Photo(filename ="photo4",adv=a2)
+	P5 = Photo(filename ="photo5",adv=a2)
+	P6 = Photo(filename ="photo6",adv=a2)
+	P7 = Photo(filename ="photo7",adv=a3)
+	P8 = Photo(filename ="photo8",adv=a3)
+	P9 = Photo(filename ="photo9",adv=a3)
+	P10 = Photo(filename ="photo10",adv=a4)
+	P11 = Photo(filename ="photo11",adv=a4)
+	P12 = Photo(filename ="photo12",adv=a4)
 
 
 	# d2 = Department(name="Department of Mathematical Sciences")

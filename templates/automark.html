@@ -35,15 +35,8 @@
             <a href="/">Назад</a>
         </div>
         <div class="col-md-12 list">
-            {% for car in cars %}
-            <h3>{{ car.model }}</h3>
-            <ul>
-                <li>{{ car.transmission }}</li>
-                <li>{{ car.color }}</li>
-                <li>{{ car.motor_power }}</li>
-                <li>{{ car.body_type }}</li>
-                <li>{{ car.motor_type }}</li>
-            </ul>
+            {% for modelname,count in cars %}
+            <h3>{{ modelname }} : {{ count }}</h3>
             {% endfor %}
         </div>
     </div>

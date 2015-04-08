@@ -64,7 +64,6 @@ class Car(db.Entity):
 	body_type = Optional(str)
 	motor_type = Optional(str)
 	rudder = Optional(str)
-	PrimaryKey(model, automark)
 
 
 class Comment(db.Entity):
@@ -112,9 +111,13 @@ def populate_database():
 			 motor_power=2.4, body_type="hatchback",
 			 motor_type="diesel", rudder="left")
 	c4 = Car(model="Cruze", automark="Chevrolet", approved=False,
-			 transmission="mechanic", color="black",
-			 motor_power=3.4, body_type="wagon",
-			 motor_type="gasoline", rudder="left")
+			transmission="mechanic", color="black",
+			motor_power=3.4, body_type="wagon",
+			motor_type="gasoline", rudder="left")
+	c5 = Car(model="Ceed", automark="KIA", approved=True,
+			transmission="mechanic", color="black",
+			 motor_power=1.2, body_type="hatchback",
+			 motor_type="diesel", rudder="left")
 	Com1 = Comment(id=1, user=u1,
 				   car=c1, content=u"Машина отличная мне понравилась всем советуюю на пять  сплюсом",  
 				   mark=5)

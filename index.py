@@ -17,8 +17,8 @@ def index():
 
 @app.route('/automark/<name>')
 @db_session
-def get_model(name):
-	cars = select(c for c in Car if c.automark == name)
+def get_automark(name):
+	cars = select((c.model, count(c)) for c in Car if c.automark == name)
 	return render_template("automark.html", name=name, cars=cars)
 
 @app.route('/user/<name>')
@@ -26,25 +26,6 @@ def get_model(name):
 def get_user(name):
     user = User[name]
     return render_template("user.html", user=user)
-
-#
-# @app.route('/adv')
-# @db_session
-# def get_departments():
-# # departments = Department.select().order_by(Department.number)
-#     # return to_json(db, departments, include=[Department.groups, Department.courses])
-#
-# @app.route('/course-students/<name>/<semester>')
-# @db_session
-# def get_course_students(name, semester):
-#     students = Course[name, semester].students
-#     return to_json(db, {'students': students})
-#
-# @app.route('/group-students/<number>')
-# @db_session
-# def get_group_students(number):
-#     students = Group[number].students
-#     return to_json(db, {'students': students})
 
 @app.route('/update', methods=['POST'])
 @db_session

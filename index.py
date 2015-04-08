@@ -11,8 +11,9 @@ sql_debug(True)
 @app.route('/')
 @db_session
 def index():
-	cars = select(c.model for c in Car)
-	return render_template("index.html", cars=cars)
+	cars = select(c for c in Car)
+	users = select(u for u in User)
+	return render_template("index.html", cars=cars, users=users)
 
 @app.route('/model/<name>')
 @db_session

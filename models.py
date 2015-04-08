@@ -84,44 +84,58 @@ db.generate_mapping(create_tables=True)
 def populate_database():
 	if select(s for s in User).count() > 0:
 		return
-	u1 = User(login="user1", password="123456",
+	u1 = User(login="jonnny", password="123456",
 			  email="joyiee@google.com", status="Confirmed",
 			  county="USA", FIO="Endrue Jonatan Ferhemshtein",
 			  telephone=3345144, city="New York",
 			  type=0)
-	u2 = User(login="user2", password="654321",
+	u2 = User(login="dummy34", password="654321",
 			  email="mich47@google.com", status="Confirmed",
 			  county="Germany", FIO="Michael fon Aubershazen",
 			  telephone=35745685, city="Berlin",
 			  type=0)
-	u3 = User(login="user3", password="123321",
-			  email="jonny@google.com", status="Confirmed",
+	u3 = User(login="betty4", password="123321",
+			  email="jonny@google.com", status="NotConfirmed",
 			  county="GB", FIO="ser John Brown",
 			  telephone=73542622, city="London",
 			  type=0)
-	c1 = Car(model="Ceed", automark="KIA", approved=0,
+	c1 = Car(model="Ceed", automark="KIA", approved=False,
 			 transmission="mechanic", color="red",
 			 motor_power=1.2, body_type="hatchback",
 			 motor_type="diesel", rudder="left")
-	c2 = Car(model="Cerato", automark="KIA", approved=0,
+	c2 = Car(model="Cerato", automark="KIA", approved=True,
 			 transmission="automate", color="blue",
 			 motor_power=4.4, body_type="sedan",
 			 motor_type="gasoline", rudder="right")
-	c3 = Car(model="Focus", automark="Ford", approved=1,
+	c3 = Car(model="Focus", automark="Ford", approved=True,
 			 transmission="mechanic", color="green",
 			 motor_power=2.4, body_type="hatchback",
 			 motor_type="diesel", rudder="left")
-	c4 = Car(model="Cruze", automark="Chevrolet", approved=0,
+	c4 = Car(model="Cruze", automark="Chevrolet", approved=False,
 			 transmission="mechanic", color="black",
 			 motor_power=3.4, body_type="wagon",
 			 motor_type="gasoline", rudder="left")
 	Com1 = Comment(id=1, user=u1,
-				   car=c1, content="Good car",  # Машина отличная мне понравилась всем советуюю на пять  сплюсом
+				   car=c1, content=u"Машина отличная мне понравилась всем советуюю на пять  сплюсом",  
 				   mark=5)
 	Com2 = Comment(id=2, user=u1,
-				   car=c2, content="Not a good car",  # Эта модедь мне не очень понравилась эта модель на любителя
+				   car=c2, content=u"Эта модедь мне не очень понравилась эта модель на любителя",
 				   mark=2)
 				   
+	a1 = Adv(id=1, user=u1, name="Prodaga mahin",
+			year=2000, price=150000,
+			mileage=65000, car=c1, comments="God Tachka")
+	a2 = Adv(id=2, user=u2, name="God mahin",
+			year=1995, price=100000,
+			mileage=180000, car=c2, comments="God Tachka Syper")
+	a3 = Adv(id=3, user=u3, name="Prodaga sypers mahin",
+			year=2006, price=2000000,
+			mileage=32000, car=c3, comments="Tachka")
+	a4 = Adv(id=4,user=u1, name="Tachka",
+			year=2012, price=250000,
+			mileage=48000, car=c4, comments="God Tachka")		
+
+
 	P1 = Photo(id=1, filename ="photo1",adv=1)
 	P2 = Photo(id=2, filename ="photo2",adv=1)
 	P3 = Photo(id=3, filename ="photo3",adv=1)
@@ -134,19 +148,8 @@ def populate_database():
 	P10 = Photo(id=10, filename ="photo10",adv=4)
 	P11 = Photo(id=11, filename ="photo11",adv=4)
 	P12 = Photo(id=12, filename ="photo12",adv=4)
-	
-	a1 = Adv( id=1,	user=u1, name="Prodaga mahin",
-			year=2000, price=150000,
-			mileage=65000, car=c1, comments="God Tachka")
-	a2 = Adv( id=1,	user=u2, name="God mahin",
-			year=1995, price=100000,
-			mileage=180000, car=c2, comments="God Tachka Syper")
-	a3 = Adv( id=1,	user=u3, name="Prodaga sypers mahin",
-			year=2006, price=2000000,
-			mileage=32000, car=c3, comments="Tachka")
-	a4 = Adv( id=1,	user=u1, name="Tachka",
-			year=2012, price=250000,
-			mileage=48000, car=c4, comments="God Tachka")		
+
+
 	# d2 = Department(name="Department of Mathematical Sciences")
 	# d3 = Department(name="Department of Applied Physics")
 	#

@@ -1,0 +1,17 @@
+{% include 'header.html' %}
+    <div class="container">
+        <h2>{{ title }} </h2>
+        <div class="col-md-6 list">
+            <ul class="list-group">
+                {% for modelname,count in cars %}
+                <a class="link" href="/automark/{{ title }}/{{ modelname }}">
+                <li class="list-group-item" style="margin-bottom:20px;">
+                    <span class="badge">{{ count }}</span>
+                    {{ modelname }}
+                </li>
+                </a>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% include 'footer.html' %}

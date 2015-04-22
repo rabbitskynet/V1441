@@ -54,7 +54,7 @@ class Message(db.Entity):
 class Car(db.Entity):
 	_table_ = "Cars"
 	model = Required(str)
-	automark = Required(str)
+	automark = Required("Automark")
 	advs = Set(Adv)
 	comments = Set("Comment")
 	approved = Required(bool)
@@ -64,6 +64,12 @@ class Car(db.Entity):
 	body_type = Optional(str)
 	motor_type = Optional(str)
 	rudder = Optional(str)
+
+class Automark(db.Entity):
+	_table_ = "Automarks"
+	name = PrimaryKey(str)
+	description = Required(str)
+	cars = Set(Car)
 
 
 class Comment(db.Entity):
@@ -98,19 +104,23 @@ def populate_database():
 			  county="GB", FIO="ser John Brown",
 			  telephone=73542622, city="London",
 			  type=0)
-	c1 = Car(model="Ceed", automark="KIA", approved=False,
+	m1 = Automark(name = "KIA", description = u"Kia Motors Corporation — корейская автомобилестроительная компания, второй автопроизводитель в Южной Корее и седьмой в мире.")
+	m2 = Automark(name = "Ford", description = u"Ford — американская автомобилестроительная компания, производитель автомобилей под марками «Ford».")
+	m3 = Automark(name = "Chevrolet", description = u"Chevrolet, — марка автомобилей, производимых и реализуемых одноимённым экономически самостоятельным подразделением корпорации General Motors.")
+
+	c1 = Car(model="Ceed", automark=m1, approved=False,
 			 transmission="mechanic", color="red",
 			 motor_power=1.2, body_type="hatchback",
 			 motor_type="diesel", rudder="left")
-	c2 = Car(model="Cerato", automark="KIA", approved=True,
+	c2 = Car(model="Cerato", automark=m1, approved=True,
 			 transmission="automate", color="blue",
 			 motor_power=4.4, body_type="sedan",
 			 motor_type="gasoline", rudder="right")
-	c3 = Car(model="Focus", automark="Ford", approved=True,
+	c3 = Car(model="Focus", automark=m2, approved=True,
 			 transmission="mechanic", color="green",
 			 motor_power=2.4, body_type="hatchback",
 			 motor_type="diesel", rudder="left")
-	c4 = Car(model="Cruze", automark="Chevrolet", approved=False,
+	c4 = Car(model="Cruze", automark=m3, approved=False,
 			transmission="mechanic", color="black",
 			motor_power=3.4, body_type="wagon",
 			motor_type="gasoline", rudder="left")
@@ -138,22 +148,12 @@ def populate_database():
 			year=2012, price=250000,
 			mileage=48000, car=c4, comments=u"Хорошая, быстро стартует, немного пороги битые")
 
+	P1 = Photo(filename ="43dbd3af.jpg",adv=a1)
+	P2 = Photo(filename ="29ecf6e9.jpg",adv=a2)
+	P3 = Photo(filename ="3f0e3d67.jpg",adv=a3)
+	P4 = Photo(filename ="aa5ae820.jpg",adv=a4)
 
-	P1 = Photo(filename ="photo1",adv=a1)
-	P2 = Photo(filename ="photo2",adv=a1)
-	P3 = Photo(filename ="photo3",adv=a1)
-	P4 = Photo(filename ="photo4",adv=a2)
-	P5 = Photo(filename ="photo5",adv=a2)
-	P6 = Photo(filename ="photo6",adv=a2)
-	P7 = Photo(filename ="photo7",adv=a3)
-	P8 = Photo(filename ="photo8",adv=a3)
-	P9 = Photo(filename ="photo9",adv=a3)
-	P10 = Photo(filename ="photo10",adv=a4)
-	P11 = Photo(filename ="photo11",adv=a4)
-	P12 = Photo(filename ="photo12",adv=a4)
-
-
-	# d2 = Department(name="Department of Mathematical Sciences")
+    # d2 = Department(name="Department of Mathematical Sciences")
 	# d3 = Department(name="Department of Applied Physics")
 	#
 	# c1 = Course(name="Web Design", semester=1, dept=d1,

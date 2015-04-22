@@ -9,13 +9,23 @@ body { padding: 70px; }
 }
 
 .list {
-	width: 35em;
-	background-color: #EBEBEB;
-	list-style-image: url(arrow.png);
-	font-family: Verdana, Helvetica, sans-serif;
-	font-size: 14px;
-	padding: 15px;
+	background-color: #E6E6E6;
+	padding-top: 20px;
 	border-radius: 20px;
 	-moz-border-radius: 20px;
 	-webkit-border-radius: 20px;
+}
+
+.badge{
+    line-height: 1.5;
+}
+
+.list-group-item:hover{
+	background-color:whiteSmoke;
+	color:#555;
+	text-decoration: none;
+}
+
+.link:hover{
+	text-decoration: none;
 }

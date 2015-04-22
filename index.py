@@ -11,17 +11,36 @@ sql_debug(True)
 @app.route('/')
 @db_session
 def index():
-	automarks = select(c.automark for c  in Car)
-	users = select(u for u in User)
 	title = u'Главная'
-	return render_template("index.html", title=title, automarks=automarks, users=users)
+	return render_template("index.html", current = "main",title=title)
+
+@app.route('/automark/')
+@db_session
+def get_all_automarks():
+	automarks = select((mark, count(mark.cars)) for mark in Automark)
+	title = u'Марки автомобилей'
+	return render_template("automarks.html", current = "automark",title=title, automarks=automarks)
 
 @app.route('/automark/<name>')
 @db_session
-def get_automark(name):
-	cars = select((c.model, count(c)) for c in Car if c.automark == name)
+def get_models(name):
+	cars = select((c.model, count(c)) for c in Car if c.automark.name == name)
 	title = name
-	return render_template("automark.html", title=title, name=name, cars=cars)
+	return render_template("models.html", current = "marks", title=title, cars=cars)
+
+@app.route('/automark/<mark>/<model>')
+@db_session
+def get_adv_by_markmodel(mark,model):
+	cars = select(c for c in Car if c.automark.name == mark and c.model == model)
+	title = mark + "/" + model
+	return render_template("model_advs.html", current = "qwe", title=title, cars=cars)
+
+@app.route('/user/')
+@db_session
+def get_all_users():
+	users= select(u for u in User)
+	title = u'Пользователи'
+	return render_template("users.html", current = "users",title=title, users=users)
 
 @app.route('/user/<name>')
 @db_session

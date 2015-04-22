@@ -1,1 +1,3 @@
-database.sqlite
+/database.sqlite
+/*.pyc
+/nohup.out

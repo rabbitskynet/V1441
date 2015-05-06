@@ -53,8 +53,7 @@ class Message(db.Entity):
 
 class Car(db.Entity):
 	_table_ = "Cars"
-	model = Required(str)
-	automark = Required("Automark")
+	model = Required("Model")
 	advs = Set(Adv)
 	comments = Set("Comment")
 	approved = Required(bool)
@@ -69,6 +68,12 @@ class Automark(db.Entity):
 	_table_ = "Automarks"
 	name = PrimaryKey(str)
 	description = Required(str)
+	models = Set("Model")
+	
+class Model(db.Entity):
+	_table_ = "Models"
+	automark = Required("Automark")
+	name = PrimaryKey(str)
 	cars = Set(Car)
 
 
@@ -107,26 +112,31 @@ def populate_database():
 	m1 = Automark(name = "KIA", description = u"Kia Motors Corporation — корейская автомобилестроительная компания, второй автопроизводитель в Южной Корее и седьмой в мире.")
 	m2 = Automark(name = "Ford", description = u"Ford — американская автомобилестроительная компания, производитель автомобилей под марками «Ford».")
 	m3 = Automark(name = "Chevrolet", description = u"Chevrolet, — марка автомобилей, производимых и реализуемых одноимённым экономически самостоятельным подразделением корпорации General Motors.")
+	
+	md1 = Model(automark=m1, name="Ceed")
+	md2 = Model(automark=m1, name="Cerato")
+	md3 = Model(automark=m2, name="Focus")
+	md4 = Model(automark=m3, name="Cruze")
 
-	c1 = Car(model="Ceed", automark=m1, approved=False,
+	c1 = Car(model=md1, approved=False,
 			 transmission="mechanic", color="red",
 			 motor_power=1.2, body_type="hatchback",
 			 motor_type="diesel", rudder="left")
-	c2 = Car(model="Cerato", automark=m1, approved=True,
+	c2 = Car(model=md2,  approved=True,
 			 transmission="automate", color="blue",
 			 motor_power=4.4, body_type="sedan",
 			 motor_type="gasoline", rudder="right")
-	c3 = Car(model="Focus", automark=m2, approved=True,
+	c3 = Car(model=md3,  approved=True,
 			 transmission="mechanic", color="green",
 			 motor_power=2.4, body_type="hatchback",
 			 motor_type="diesel", rudder="left")
-	c4 = Car(model="Cruze", automark=m3, approved=False,
+	c4 = Car(model=md4,  approved=False,
 			transmission="mechanic", color="black",
 			motor_power=3.4, body_type="wagon",
 			motor_type="gasoline", rudder="left")
-	c5 = Car(model="Ceed", automark="KIA", approved=True,
+	c5 = Car(model=md1, approved=True,
 			transmission="mechanic", color="black",
-			 motor_power=1.2, body_type="hatchback",
+			 motor_power=1.4, body_type="hatchback",
 			 motor_type="diesel", rudder="left")
 	Com1 = Comment(id=1, user=u1,
 				   car=c1, content=u"Машина отличная мне понравилась всем советуюю на пять  сплюсом",  

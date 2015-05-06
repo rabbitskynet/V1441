@@ -17,23 +17,25 @@ def index():
 @app.route('/automark/')
 @db_session
 def get_all_automarks():
-	automarks = select((mark, count(mark.cars)) for mark in Automark)
+	automarks = select((ad.car.automark,count(ad)) for ad in Adv )
 	title = u'Марки автомобилей'
 	return render_template("automarks.html", current = "automark",title=title, automarks=automarks)
 
 @app.route('/automark/<name>')
 @db_session
 def get_models(name):
-	cars = select((c.model, count(c)) for c in Car if c.automark.name == name)
+	#~ cars = select((c.model, count(c)) for c in Car if c.automark.name == name)
+	cars = select((ad.car.model,count(ad)) for ad in Adv if ad.car.automark.name == name)
 	title = name
 	return render_template("models.html", current = "marks", title=title, cars=cars)
 
 @app.route('/automark/<mark>/<model>')
 @db_session
 def get_adv_by_markmodel(mark,model):
-	cars = select(c for c in Car if c.automark.name == mark and c.model == model)
+	#~ cars = select(c for c in Car if c.automark.name == mark and c.model == model)
+	ads = select(ad for ad in Adv if ad.car.automark.name == mark and ad.car.model == model)
 	title = mark + "/" + model
-	return render_template("model_advs.html", current = "qwe", title=title, cars=cars)
+	return render_template("model_advs.html", current = "qwe", title=title, ads=ads)
 
 @app.route('/user/')
 @db_session

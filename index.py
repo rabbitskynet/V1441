@@ -36,11 +36,20 @@ def get_automark_new():
     title="Commmon bro"
     return render_template("model_single.html", current = "OnePage", title=title)
 
+
+
 @app.route('/automarks')
 @db_session
 def get_json():
     automarks = Automark.select()
-    return to_json(db, automarks, include=[Automark.models]) 
+    return to_json(db, automarks, include=[Automark.models])
+    
+@app.route('/get-adv-bymodel/<model>')
+@db_session
+def get_model_json(model):
+    print model
+    advs = select(a for a in Adv if a.car.model.name == model)
+    return to_json(db, {'advs': advs})
 
 @app.route('/automark/<mark>/<model>')
 @db_session

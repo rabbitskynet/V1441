@@ -13,20 +13,23 @@
         var model = {
             automarks: ko.observableArray([]),
             models: ko.observableArray([]),
+            adverts: ko.observableArray([]),
             selectedMark: ko.observable(),
+            selectedCourse: ko.observable(),
             selectedModel: ko.observable(),
+            onModelClick: function(modelname) {				
+                getData('/get-adv-bymodel/' + modelname.name(), function(data) {
+                    model.adverts(data.advs);
+                    model.selectedModel(modelname);
+                })
+            },
             onMarkClick: function(mark) {
                 model.selectedMark(mark);
                 model.selectedModel(undefined);
+                model.selectedModel(mark);
                 model.models(model.selectedMark().models());
             },
-            //~ onGroupClick: function(group) {
-                //~ model.selectedCourse(undefined);
-                //~ getData('/group-students/' + group.number(), function(data) {
-                    //~ model.students(data.students);
-                    //~ model.selectedGroup(group);
-                //~ })
-            //~ },
+            
             //~ onCourseClick: function(course) {
                 //~ model.selectedGroup(undefined);
                 //~ getData('/course-students/' + course.name() + '/' + course.semester(), function(data) {
@@ -124,7 +127,7 @@
                         </tr>
                     </thead>
                     <tbody data-bind="foreach: models">
-                        <tr>
+                        <tr data-bind="click: $root.onModelClick">
                             <td data-bind="text: name" class="text-center"></td>
                         </tr>
                     </tbody>
@@ -133,39 +136,27 @@
         </div>
         <div class="row">
             <div class="col-lg-7">
-                <table class="table table-bordered">
-                    <caption>Automarks</caption>
+                <table class="table table-bordered" data-bind="if: adverts().length > 0">
+                    <caption>Advs</caption>
                     <thead>
                         <tr>
-                            <th class="text-center">Name</th>
-                            <th class="text-center">Description</th>
+                            <th class="text-center">name</th>
+                            <th class="text-center">price</th>
+                            <th class="text-center">year</th>
                         </tr>
                     </thead>
-					<tbody data-bind="foreach: automarks">
-						<tr data-bind="click: $root.onMarkClick">
+					<tbody data-bind="foreach: adverts">
+						<tr data-bind="click: $root.onModelClick">
 							<td data-bind="text: name" class="text-center"></td>
-							<td data-bind="text: description" class="text-center"></td>
+							<td data-bind="text: price" class="text-center"></td>
+							<td data-bind="text: year" class="text-center"></td>
 						</tr>
 					</tbody>
                     </div>
                 </table>
             </div>
-            <div class="col-lg-5"></div>
-            <div class="col-lg-4">
-                <table class="table table-bordered" data-bind="if: models().length > 0">
-                    <caption data-bind="text: 'Models of automark  ' + selectedMark().name()"></caption>
-                    <thead>
-                        <tr>
-                            <th class="text-center">Model</th>
-                        </tr>
-                    </thead>
-                    <tbody data-bind="foreach: models">
-                        <tr>
-                            <td data-bind="text: name" class="text-center"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            
         </div>
+	</div>
 </body>
 </html>

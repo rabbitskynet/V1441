@@ -12,7 +12,7 @@ sql_debug(True)
 @db_session
 def index():
     title = u'Главная'
-    return render_template("index.html", current = "main",title=title)
+    return render_template("model_single.html", current = "OnePage", title=title)
 
 @app.route('/automark/')
 @db_session
@@ -47,7 +47,7 @@ def get_json():
 @app.route('/get-adv-bymodel/<model>')
 @db_session
 def get_model_json(model):
-    print model
+    #print model
     advs = select(a for a in Adv if a.car.model.name == model)
     return to_json(db, {'advs': advs})
 

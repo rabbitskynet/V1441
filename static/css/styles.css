@@ -1,6 +1,4 @@
 
-body { padding: 70px; }
-
 .disabled{
 	background-color: #FFA4A4;
 	border-radius: 3px;
@@ -29,3 +27,38 @@ body { padding: 70px; }
 .link:hover{
 	text-decoration: none;
 }
+
+.page-wrap {
+  min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -195px; 
+}
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+.site-footer {
+  height: 195px; 
+}
+
+.page-wrap:after {
+  height: 190px; 
+}
+
+body {
+	padding-top: 70px;
+}
+td {
+	cursor: pointer;
+	background-color:white;
+}
+tr{
+	background-color:white;
+}
+caption {
+	font-weight: bold;
+}
+.margin-top-8 {
+	margin-top: 8px;
+}
+

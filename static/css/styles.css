@@ -62,3 +62,31 @@ caption {
 	margin-top: 8px;
 }
 
+.row {
+margin-top:10px;
+}
+.loginform{
+    border-radius: 25px;
+    background-color: #8AC007;
+    padding: 20px;
+}
+.addform{
+    border-radius: 25px;
+    background-color: #C08A07;
+    padding: 20px;
+}
+.ok {
+    padding-top:10px;
+    text-align:center;
+    font-size: 125%;
+    color:#616161;
+}
+
+.error {
+    padding-top:10px;
+    text-align:center;
+    font-size: 126%;
+    color:#FF1759;
+}
+
+

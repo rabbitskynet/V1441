@@ -1,0 +1,48 @@
+{% include 'header.html' %}
+<div class="page-wrap container">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+            <section class="loginform">
+                <form name="login" action="/login" method="POST" accept-charset="utf-8">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="username">Username</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="username" name="username" placeholder="login" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="password">Password</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="password" name="password" placeholder="password" required>
+                        </div>
+                    </div>
+                    <div class="row" >
+                        <div class="col-md-4"></div>
+                         <div class="col-md-4">
+                            <input type="submit" value="Login">
+                        </div>
+                    </div>
+                    {% if status == 1 %}
+                        <div>
+                            <p class="error">Логин или пароль указаны неправильно</p>
+                        </div>
+                    {% endif %}
+                    {% if status == 2%}
+                        <div>
+                            <p class="ok">Сначала необходимо войти в систему</p>
+                        </div>
+                    {% endif %}
+                    {% if status == 0 %}
+                        <div>
+                            <p class="ok">Добро пожаловать {{ login }}</p>
+                        </div>
+                    {% endif %}
+                </form>
+            </section>
+    </div>
+</div>
+{% include 'footer.html' %}

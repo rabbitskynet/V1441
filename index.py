@@ -42,7 +42,7 @@ def show_login_form():
             url = url_for('index')
             return redirect(url)
         else:
-			return render_template("login.html", current = "login",status=-1, title="Login form")
+            return render_template("login.html", current = "login",status=-1, title="Login form")
 
 
 @app.route('/saveadv', methods=['POST'])
@@ -50,12 +50,14 @@ def show_login_form():
 def saveadv():
     if request.method == 'POST':
         print request.form['car']
-        selectedcar=select(c for c in Car if c.id == request.form['car'])
-        print length(selectedcar)
-        adv = Adv(user=getuser(), name=request.form['nameadv'], year=request.form['year'], price=request.form['price'], comments=request.form['comm'], mileage=request.form['milage'], car=selectedcar)
-        flush()
-        url = url_for('index')
-        return redirect(url)
+        selectedcar=Car[request.form['car']]
+        if selectedcar:
+            adv = Adv(user=getuser(), name=request.form['nameadv'], year=request.form['year'], price=request.form['price'], comments=request.form['comm'], mileage=request.form['milage'], car=selectedcar)
+            flush()
+            url = url_for('index')
+            return str(adv.id)
+        else:
+            return '-1'
     else:
         return render_template('create_brand.html')
 

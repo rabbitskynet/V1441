@@ -10,6 +10,7 @@
 		selectedModel: ko.observable(),
 		selectedCar: ko.observable(),
 		currentmode: ko.observable(),
+		lastaddedadv: ko.observable(),
 		onModelClick: function(modelname) {				
 			getData('/get-adv-bymodel/' + modelname.name(), function(data) {
 				model.adverts(data.advs);
@@ -33,6 +34,7 @@
 			getData('/automarks', function(data) {
 				model.automarks(data);
 			});
+			model.lastaddedadv("-1");
 		},
 		backtomain: function() {
 			model.currentmode(0);
@@ -71,7 +73,7 @@
 		selectModel: function() {
 			if(model.selectedModel())
 			{
-				console.log('/get-cars-bymodel/' + model.selectedModel().name());
+				//~ console.log('/get-cars-bymodel/' + model.selectedModel().name());
 				getData('/get-cars-bymodel/' + model.selectedModel().name(), function(data) {
 					model.cars([]);
 					model.cars(data.cars);
@@ -81,23 +83,9 @@
 				model.cars([]);
 			}
 		},
-		//~ saveadv: function() {
-			//~ console.log('hi');
-			//~ $.ajax({
-				//~ url: '/saveadv',
-				//~ type: 'POST',
-				//~ dataType: 'json',
-				//~ data: {
-					//~ ormdata: JSON.stringify(pony.getChanges())
-				//~ },
-				//~ success: function() {
-					//~ location.reload();
-				//~ }
-			//~ })
-		//~ },
-		//~ cancelClicked: function() {
-			//~ location.reload();
-		//~ }
+		cancelClicked: function() {
+			location.reload();
+		},
 		saveform: function()
 		{
 			$('<input>').attr({
@@ -106,7 +94,41 @@
 				name: 'car',
 				value: model.selectedCar().id()
 			}).appendTo('#cc');
-			$( "#addadvform" ).submit();
+			$("#addadvform").submit(function(e)
+			{
+				var formObj = $(this);
+				var formURL = formObj.attr("action");
+				var formData = new FormData(this);
+				$.ajax({
+					url: '/saveadv',
+				type: 'POST',
+					data:  formData,
+				mimeType:"multipart/form-data",
+				contentType: false,
+					cache: false,
+					processData:false,
+				success: function(data, textStatus, jqXHR)
+				{
+					//~ console.log('succ');
+					console.log(data);
+					if(data!="-1")
+					{
+						model.currentmode(1);
+						model.onModelClick(model.selectedModel());
+						model.lastaddedadv(data);
+						//~ console.log(model.lastaddedadv());
+					}
+				},
+				 error: function(jqXHR, textStatus, errorThrown)
+				 {
+					 //~ console.log('err');
+					 //~ console.log(data);
+				 }         
+				});
+				e.preventDefault(); //Prevent Default action.
+			});
+			$("#addadvform").submit();
+			//~ $( "#addadvform" ).submit();
 		}
 	};
 	var getData = function(url, func) {
@@ -194,10 +216,10 @@
 						</tr>
 					</thead>
 					<tbody data-bind="foreach: adverts">
-						<tr data-bind="click: $root.onModelClick">
-							<td data-bind="text: name" class="text-center"></td>
-							<td data-bind="text: price" class="text-center"></td>
-							<td data-bind="text: year" class="text-center"></td>
+						<tr>
+							<td data-bind="text: name, attr:{style: id() == $root.lastaddedadv() ? 'background-color: #F9F5AE;' : 'background-color: #FFFFFF;'}" class="text-center"></td>
+							<td data-bind="text: price, attr:{style: id() == $root.lastaddedadv() ? 'background-color: #F9F5AE;' : 'background-color: #FFFFFF;'}" class="text-center"></td>
+							<td data-bind="text: year, attr:{style: id() == $root.lastaddedadv() ? 'background-color: #F9F5AE;' : 'background-color: #FFFFFF;'}" class="text-center"></td>
 						</tr>
 					</tbody>
 					</div>

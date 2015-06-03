@@ -1,4 +1,25 @@
 {% include 'header.html' %}
+<script type="text/javascript">
+	var model = {
+		username: ko.observable()
+	}
+	var getData = function(url, func) {
+		$.ajax({
+			url: url,
+			dataType: 'json',
+			success: function(json) {
+				var data = pony.unmarshalData(json);
+				func(data);
+			}
+		})
+	};
+	$().ready(function() {
+		getData('/get-current-user', function(data) {
+			model.username(data);
+		});
+		ko.applyBindings(model);
+	});
+</script>
 <div class="page-wrap container">
     <div class="col-md-4"></div>
     <div class="col-md-4">
@@ -31,10 +52,17 @@
                             <p class="error">Логин или пароль указаны неправильно</p>
                         </div>
                     {% endif %}
+                    {% if status == 4 %}
+                        <div>
+                            <p class="error">Логин или пароль указаны неправильно</p>
+                        </div>
+                        <input type="hidden" name="addadv" value='1'>
+                    {% endif %}
                     {% if status == 2%}
                         <div>
                             <p class="ok">Сначала необходимо войти в систему</p>
                         </div>
+                        <input type="hidden" name="addadv" value='1'>
                     {% endif %}
                     {% if status == 0 %}
                         <div>

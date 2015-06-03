@@ -28,15 +28,11 @@
 		<div id="navbar" class="collapse navbar-collapse">
 		  <ul class="nav navbar-nav">
               <li {% if current == 'main' %} class="active" {% endif %}><a href="/">Главная</a></li>
-              <!--<li {% if current == "users" %} class="active" {% endif %}><a href="/user/">Пользователи</a></li>-->
-              <li {% if current == "addadv" %} class="active" {% endif %}><a href="/addadv">Добавить объявление</a></li>
-              {% if menuuser == '' %}
-                    <li {% if current == "login" %} class="active" {% endif %}><a href="/login">Войти в систему</a></li>
-              {% else %}
-                <li ><a href="/logout">Выйти из системы</a></li>
-                <p class="navbar-text">Logged in as <b>{{menuuser.login}}</b></p>
-              {% endif %}
+
+				<li  data-bind="ifnot: username()" {% if current == "login" %} class="active" {% endif %}><a href="/login">Войти в систему</a></li>
+                <li data-bind="if: username()"><a href="/logout">Выйти из системы</a></li>
+                <p data-bind="if: username()" class="navbar-text">Logged in as <b data-bind="text: username().login()"></b></p>
 		  </ul>
-		</div><!--/.nav-collapse -->
+		</div>
 	  </div>
 	</nav>

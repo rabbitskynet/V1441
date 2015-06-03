@@ -1,15 +1,14 @@
 {% include 'header.html' %}
 <script type="text/javascript">
-	$( document ).ready(function() {
-		$("#marks").css('display', 'none');
-	});
 	var model = {
 		automarks: ko.observableArray([]),
 		models: ko.observableArray([]),
 		adverts: ko.observableArray([]),
+		username: ko.observable(),
 		selectedMark: ko.observable(),
 		selectedCourse: ko.observable(),
 		selectedModel: ko.observable(),
+		currentmode: ko.observable(),
 		onModelClick: function(modelname) {				
 			getData('/get-adv-bymodel/' + modelname.name(), function(data) {
 				model.adverts(data.advs);
@@ -22,14 +21,6 @@
 			model.selectedModel(mark);
 			model.models(model.selectedMark().models());
 		},
-		
-		//~ onCourseClick: function(course) {
-			//~ model.selectedGroup(undefined);
-			//~ getData('/course-students/' + course.name() + '/' + course.semester(), function(data) {
-				//~ model.students(data.students);
-				//~ model.selectedCourse(course);
-			//~ })
-		//~ },
 		saveClicked: function() {
 			$.ajax({
 				url: '/update',
@@ -61,82 +52,217 @@
 		getData('/automarks', function(data) {
 			model.automarks(data);
 		});
+		getData('/get-current-user', function(data) {
+			model.username(data);
+		});
+		model.currentmode(0);
 		ko.applyBindings(model);
 	});
 	function showmarks()
 	{
-		$("#marks").css('display', 'block');
-		$(".jumbotron").css('display', 'none');
+		model.currentmode(1);
+	}
+	function addadv()
+	{
+		if(model.username())
+		{
+			model.currentmode(2);
+		}else
+		{
+			window.location.href = "/login";
+		}
+	}
+	function backtomain()
+	{
+		model.currentmode(0);
 	}
 </script>
 <style>
 
 </style>
+
 <div class="page-wrap container">
-	<div class="container">
+	<div data-bind="if: currentmode() == 0" class="container">
         <div class="jumbotron">
-            <h1>Добро пожаловать на сайт {{ menuuser.login }} обьявлений продажи автомобилей</h1>
+            <h1 style="display:inline">Добро пожаловать на сайт </h1><h1 style="display:inline" data-bind="text: username() ? username().login() : '' "></h1><h1 style="display:inline"> обьявлений продажи автомобилей</h1>
             <p>Мы предлагаем большой выбор легковых автомобилей, грузового и коммерческого транспорта, мототехники, спецтехники и многих других видов транспортных средств.</p>
-            <p><a class="btn btn-primary btn-lg" onclick="showmarks();" role="button">Перейти к просмотрку автомарок</a></p>
+            <p style="width:200px;height:200px;display: inline;margin-right:20px">
+				<a class="btn btn-primary btn-lg" onclick="showmarks();" role="button">Перейти к просмотрку автомарок</a>
+			</p>
+			<p style="width:200px;display: inline;">
+				<a class="btn btn-primary btn-lg" onclick="addadv();" role="button">Добавить обьявление</a>
+			</p>	
         </div>
 	</div>
-	<div class="row">
-		<div class="col-lg-7">
-			<table id="marks" class="table table-bordered">
-				<thead>
-					<tr>
-						<th class="text-center">Name</th>
-						<th class="text-center">Description</th>
-					</tr>
-				</thead>
-				<tbody data-bind="foreach: automarks">
-					<tr data-bind="click: $root.onMarkClick">
-						<td data-bind="text: name" class="text-center"></td>
-						<td data-bind="text: description" class="text-center"></td>
-					</tr>
-				</tbody>
-				</div>
-			</table>
+	<div data-bind="if: currentmode() == 1">
+		<div class="row">
+			<div class="col-lg-7">
+				<p>
+					<a class="btn btn-primary btn-lg" onclick="backtomain();" role="button">Назад</a>
+				</p>	
+				<table id="marks" class="table table-bordered">
+					<thead>
+						<tr>
+							<th class="text-center">Name</th>
+							<th class="text-center">Description</th>
+						</tr>
+					</thead>
+					<tbody data-bind="foreach: automarks">
+						<tr data-bind="click: $root.onMarkClick">
+							<td data-bind="text: name" class="text-center"></td>
+							<td data-bind="text: description" class="text-center"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-lg-5"></div>
+			<p>
+				<a class="btn btn-primary btn-lg" onclick="backtomain();" style="visibility:hidden;padding:0px;border-width:0px;" role="button"></a>
+			</p>
+			<div class="col-lg-4">
+				<table class="table table-bordered" data-bind="if: models().length > 0">
+					<caption data-bind="text: 'Models of automark  ' + selectedMark().name()"></caption>
+					<thead>
+						<tr>
+							<th class="text-center">Выберите модель автомобиля:</th>
+						</tr>
+					</thead>
+					<tbody data-bind="foreach: models">
+						<tr data-bind="click: $root.onModelClick">
+							<td data-bind="text: name" class="text-center"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
-		<div class="col-lg-5"></div>
-		<div class="col-lg-4">
-			<table class="table table-bordered" data-bind="if: models().length > 0">
-				<caption data-bind="text: 'Models of automark  ' + selectedMark().name()"></caption>
-				<thead>
-					<tr>
-						<th class="text-center">Выберите модель автомобиля:</th>
-					</tr>
-				</thead>
-				<tbody data-bind="foreach: models">
-					<tr data-bind="click: $root.onModelClick">
-						<td data-bind="text: name" class="text-center"></td>
-					</tr>
-				</tbody>
-			</table>
+		<div class="row">
+			<div class="col-lg-7">
+				<table class="table table-bordered" data-bind="if: adverts().length > 0">
+					<caption>Advs</caption>
+					<thead>
+						<tr>
+							<th class="text-center">name</th>
+							<th class="text-center">price</th>
+							<th class="text-center">year</th>
+						</tr>
+					</thead>
+					<tbody data-bind="foreach: adverts">
+						<tr data-bind="click: $root.onModelClick">
+							<td data-bind="text: name" class="text-center"></td>
+							<td data-bind="text: price" class="text-center"></td>
+							<td data-bind="text: year" class="text-center"></td>
+						</tr>
+					</tbody>
+					</div>
+				</table>
+			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-lg-7">
-			<table class="table table-bordered" data-bind="if: adverts().length > 0">
-				<caption>Advs</caption>
-				<thead>
-					<tr>
-						<th class="text-center">name</th>
-						<th class="text-center">price</th>
-						<th class="text-center">year</th>
-					</tr>
-				</thead>
-				<tbody data-bind="foreach: adverts">
-					<tr data-bind="click: $root.onModelClick">
-						<td data-bind="text: name" class="text-center"></td>
-						<td data-bind="text: price" class="text-center"></td>
-						<td data-bind="text: year" class="text-center"></td>
-					</tr>
-				</tbody>
-				</div>
-			</table>
+	<div data-bind="if: currentmode() == 2">
+		<div class="row">
+			<div class="col-md-3">
+			</div>
+			<div class="col-md-1">
+				<p>
+					<a class="btn btn-primary btn-lg" onclick="backtomain();" role="button">Назад</a>
+				</p>
+			</div>
+			<div class="col-md-4">	
+				<section class="addform">
+					<form name="login" action="/addadv" method="POST" accept-charset="utf-8">
+						<div class="row">
+							<div class="col-md-4">
+								<label for="nameadv">Название обьявления</label>
+							</div>
+							<div class="col-md-6">
+								<input type="text" name="nameadv" placeholder="Машина мечты" required>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<label for="year">Год выпуска</label>
+							</div>
+							<div class="col-md-6">
+								<input type="text" name="year" placeholder="19XX" required>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<label for="price">Цена</label>
+							</div>
+							<div class="col-md-6">
+								<input type="text" name="price" placeholder="Пол лимона" required>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<label for="comm">Комментарий</label>
+							</div>
+							<div class="col-md-6">
+								<input type="text" name="comm" placeholder="Отличная машинка" required>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<label for="milage">Пробег</label>
+							</div>
+							<div class="col-md-6">
+								<input type="text" name="milage" placeholder="36000" required>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<label for="mark">Марка</label>
+							</div>
+							<div class="col-md-6">
+								<select>
+									{% for mark in automarks %}
+									<option>{{mark.name}}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<label for="car">Модель</label>
+							</div>
+							<div class="col-md-6">
+								<select>
+									<option>Сначала выберите марку</option>
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">
+								<label for="car">Машина</label>
+							</div>
+							<div class="col-md-6">
+								<select>
+								   <option>Выберите модель и марку</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="row" >
+							<div class="col-md-4"></div>
+							 <div class="col-md-4">
+								<input type="submit" value="Login">
+							</div>
+						</div>
+						{% if status == 1 %}
+							<div>
+								<p class="error">Логин или пароль указаны неправильно</p>
+							</div>
+						{% endif %}
+						{% if status == 0 %}
+							<div>
+								<p class="ok">Добро пожаловать {{ login }}</p>
+							</div>
+						{% endif %}
+					</form>
+				</section>
+			</div>
 		</div>
-		
 	</div>
 </div>
 {% include 'footer.html' %}

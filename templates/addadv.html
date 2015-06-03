@@ -2,99 +2,99 @@
 <div class="page-wrap container">
     <div class="col-md-4"></div>
     <div class="col-md-4">
-            <section class="addform">
-                <form name="login" action="/addadv" method="POST" accept-charset="utf-8">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="nameadv">Название обьявления</label>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" name="nameadv" placeholder="Машина мечты" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="year">Год выпуска</label>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" name="year" placeholder="19XX" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="price">Цена</label>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" name="price" placeholder="Пол лимона" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="comm">Комментарий</label>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" name="comm" placeholder="Отличная машинка" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="milage">Пробег</label>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" name="milage" placeholder="36000" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="mark">Марка</label>
-                        </div>
-                        <div class="col-md-6">
-                            <select>
-                                {% for mark in automarks %}
-                                <option>{{mark.name}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="car">Модель</label>
-                        </div>
-                        <div class="col-md-6">
-                            <select>
-                                <option>Сначала выберите марку</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="car">Машина</label>
-                        </div>
-                        <div class="col-md-6">
-                            <select>
-                               <option>Выберите модель и марку</option>
-                            </select>
-                        </div>
-                    </div>
+		<section class="addform">
+			<form name="login" action="/addadv" method="POST" accept-charset="utf-8">
+				<div class="row">
+					<div class="col-md-4">
+						<label for="nameadv">Название обьявления</label>
+					</div>
+					<div class="col-md-6">
+						<input type="text" name="nameadv" placeholder="Машина мечты" required>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<label for="year">Год выпуска</label>
+					</div>
+					<div class="col-md-6">
+						<input type="text" name="year" placeholder="19XX" required>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<label for="price">Цена</label>
+					</div>
+					<div class="col-md-6">
+						<input type="text" name="price" placeholder="Пол лимона" required>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<label for="comm">Комментарий</label>
+					</div>
+					<div class="col-md-6">
+						<input type="text" name="comm" placeholder="Отличная машинка" required>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<label for="milage">Пробег</label>
+					</div>
+					<div class="col-md-6">
+						<input type="text" name="milage" placeholder="36000" required>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<label for="mark">Марка</label>
+					</div>
+					<div class="col-md-6">
+						<select>
+							{% for mark in automarks %}
+							<option>{{mark.name}}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<label for="car">Модель</label>
+					</div>
+					<div class="col-md-6">
+						<select>
+							<option>Сначала выберите марку</option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<label for="car">Машина</label>
+					</div>
+					<div class="col-md-6">
+						<select>
+						   <option>Выберите модель и марку</option>
+						</select>
+					</div>
+				</div>
 
-                    <div class="row" >
-                        <div class="col-md-4"></div>
-                         <div class="col-md-4">
-                            <input type="submit" value="Login">
-                        </div>
-                    </div>
-                    {% if status == 1 %}
-                        <div>
-                            <p class="error">Логин или пароль указаны неправильно</p>
-                        </div>
-                    {% endif %}
-                    {% if status == 0 %}
-                        <div>
-                            <p class="ok">Добро пожаловать {{ login }}</p>
-                        </div>
-                    {% endif %}
-                </form>
-            </section>
+				<div class="row" >
+					<div class="col-md-4"></div>
+					 <div class="col-md-4">
+						<input type="submit" value="Login">
+					</div>
+				</div>
+				{% if status == 1 %}
+					<div>
+						<p class="error">Логин или пароль указаны неправильно</p>
+					</div>
+				{% endif %}
+				{% if status == 0 %}
+					<div>
+						<p class="ok">Добро пожаловать {{ login }}</p>
+					</div>
+				{% endif %}
+			</form>
+		</section>
     </div>
 </div>
 {% include 'footer.html' %}

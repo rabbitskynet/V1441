@@ -52,6 +52,7 @@ class Message(db.Entity):
 
 
 class Car(db.Entity):
+	id = PrimaryKey(int, auto=True)
 	_table_ = "Cars"
 	model = Required("Model")
 	advs = Set(Adv)

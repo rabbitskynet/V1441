@@ -45,29 +45,32 @@ def show_login_form():
 			return render_template("login.html", current = "login",status=-1, title="Login form")
 
 
-@app.route('/addadv', methods=['GET', 'POST'])
+@app.route('/saveadv', methods=['POST'])
 @db_session
-def add_adv_form():
+def saveadv():
     if request.method == 'POST':
-        user = User.get(login=request.form['username'],password = request.form['password'])
-        if user:
-            setuser(user)
-            return render_template("login.html", current = "login",status=0, title="Login form")
-        else:
-            return render_template("login.html", current = "login",status=1, title="Login form")
+        print request.form['car']
+        selectedcar=select(c for c in Car if c.id == request.form['car'])
+        print length(selectedcar)
+        adv = Adv(user=getuser(), name=request.form['nameadv'], year=request.form['year'], price=request.form['price'], comments=request.form['comm'], mileage=request.form['milage'], car=selectedcar)
+        flush()
+        url = url_for('index')
+        return redirect(url)
     else:
-        if getuser():
-            automarks = Automark.select()
-            return render_template("addadv.html", current = "addadv",automarks=automarks, title="Add adv form")
-        else:
-            url = url_for('show_login_form')
-            return redirect(url)
+        return render_template('create_brand.html')
+
 
 @app.route('/get-adv-bymodel/<model>')
 @db_session
 def get_model_json(model):
     advs = select(a for a in Adv if a.car.model.name == model)
     return to_json(db, {'advs': advs})
+
+@app.route('/get-cars-bymodel/<model>')
+@db_session
+def get_cars_json(model):
+    cars = select(c for c in Car if c.model.name == model)
+    return to_json(db, {'cars': cars})
 
 
 @app.route('/logout')

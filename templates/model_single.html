@@ -4,10 +4,11 @@
 		automarks: ko.observableArray([]),
 		models: ko.observableArray([]),
 		adverts: ko.observableArray([]),
+		cars: ko.observableArray([]),
 		username: ko.observable(),
 		selectedMark: ko.observable(),
-		selectedCourse: ko.observable(),
 		selectedModel: ko.observable(),
+		selectedCar: ko.observable(),
 		currentmode: ko.observable(),
 		onModelClick: function(modelname) {				
 			getData('/get-adv-bymodel/' + modelname.name(), function(data) {
@@ -19,24 +20,94 @@
 			model.selectedMark(mark);
 			model.selectedModel(undefined);
 			model.selectedModel(mark);
+			model.models([]);
 			model.models(model.selectedMark().models());
 		},
-		saveClicked: function() {
-			$.ajax({
-				url: '/update',
-				type: 'POST',
-				dataType: 'json',
-				data: {
-					ormdata: JSON.stringify(pony.getChanges())
-				},
-				success: function() {
-					location.reload();
-				}
-			})
+		showmarks: function() {
+			model.currentmode(1);
+			model.models([]);
+			model.adverts([]);
+			model.automarks([]);
+			model.selectedMark(undefined);
+			model.selectedModel(undefined);
+			getData('/automarks', function(data) {
+				model.automarks(data);
+			});
 		},
+		backtomain: function() {
+			model.currentmode(0);
+			model.models([]);
+			model.adverts([]);
+			model.automarks([]);
+			model.selectedMark(undefined);
+			model.selectedModel(undefined);
+		},
+		addadv: function() {
+			if(model.username())
+			{
+				model.currentmode(2);
+				model.models([]);
+				model.adverts([]);
+				model.automarks([]);
+				model.selectedMark(undefined);
+				model.selectedModel(undefined);
+				getData('/automarks', function(data) {
+					model.automarks(data);
+				});
+			}else
+			{
+				window.location.href = "/login";
+			}
+		},
+		selectMark: function() {
+			if(model.selectedMark())
+			{
+				model.models(model.selectedMark().models());
+			}else
+			{
+				model.models([]);
+			}
+		},
+		selectModel: function() {
+			if(model.selectedModel())
+			{
+				console.log('/get-cars-bymodel/' + model.selectedModel().name());
+				getData('/get-cars-bymodel/' + model.selectedModel().name(), function(data) {
+					model.cars([]);
+					model.cars(data.cars);
+				})
+			}else
+			{
+				model.cars([]);
+			}
+		},
+		//~ saveadv: function() {
+			//~ console.log('hi');
+			//~ $.ajax({
+				//~ url: '/saveadv',
+				//~ type: 'POST',
+				//~ dataType: 'json',
+				//~ data: {
+					//~ ormdata: JSON.stringify(pony.getChanges())
+				//~ },
+				//~ success: function() {
+					//~ location.reload();
+				//~ }
+			//~ })
+		//~ },
 		//~ cancelClicked: function() {
 			//~ location.reload();
 		//~ }
+		saveform: function()
+		{
+			$('<input>').attr({
+				type: 'hidden',
+				id: 'car',
+				name: 'car',
+				value: model.selectedCar().id()
+			}).appendTo('#cc');
+			$( "#addadvform" ).submit();
+		}
 	};
 	var getData = function(url, func) {
 		$.ajax({
@@ -49,37 +120,13 @@
 		})
 	};
 	$().ready(function() {
-		getData('/automarks', function(data) {
-			model.automarks(data);
-		});
 		getData('/get-current-user', function(data) {
 			model.username(data);
 		});
 		model.currentmode(0);
 		ko.applyBindings(model);
 	});
-	function showmarks()
-	{
-		model.currentmode(1);
-	}
-	function addadv()
-	{
-		if(model.username())
-		{
-			model.currentmode(2);
-		}else
-		{
-			window.location.href = "/login";
-		}
-	}
-	function backtomain()
-	{
-		model.currentmode(0);
-	}
 </script>
-<style>
-
-</style>
 
 <div class="page-wrap container">
 	<div data-bind="if: currentmode() == 0" class="container">
@@ -87,10 +134,10 @@
             <h1 style="display:inline">Добро пожаловать на сайт </h1><h1 style="display:inline" data-bind="text: username() ? username().login() : '' "></h1><h1 style="display:inline"> обьявлений продажи автомобилей</h1>
             <p>Мы предлагаем большой выбор легковых автомобилей, грузового и коммерческого транспорта, мототехники, спецтехники и многих других видов транспортных средств.</p>
             <p style="width:200px;height:200px;display: inline;margin-right:20px">
-				<a class="btn btn-primary btn-lg" onclick="showmarks();" role="button">Перейти к просмотрку автомарок</a>
+				<a class="btn btn-primary btn-lg" data-bind="click: $root.showmarks" role="button">Перейти к просмотрку автомарок</a>
 			</p>
 			<p style="width:200px;display: inline;">
-				<a class="btn btn-primary btn-lg" onclick="addadv();" role="button">Добавить обьявление</a>
+				<a class="btn btn-primary btn-lg" data-bind="click: $root.addadv" role="button">Добавить обьявление</a>
 			</p>	
         </div>
 	</div>
@@ -98,7 +145,7 @@
 		<div class="row">
 			<div class="col-lg-7">
 				<p>
-					<a class="btn btn-primary btn-lg" onclick="backtomain();" role="button">Назад</a>
+					<a class="btn btn-primary btn-lg" data-bind="click: $root.backtomain" role="button">Назад</a>
 				</p>	
 				<table id="marks" class="table table-bordered">
 					<thead>
@@ -117,7 +164,7 @@
 			</div>
 			<div class="col-lg-5"></div>
 			<p>
-				<a class="btn btn-primary btn-lg" onclick="backtomain();" style="visibility:hidden;padding:0px;border-width:0px;" role="button"></a>
+				<a class="btn btn-primary btn-lg" data-bind="click: $root.backtomain" style="visibility:hidden;padding:0px;border-width:0px;" role="button"></a>
 			</p>
 			<div class="col-lg-4">
 				<table class="table table-bordered" data-bind="if: models().length > 0">
@@ -164,12 +211,12 @@
 			</div>
 			<div class="col-md-1">
 				<p>
-					<a class="btn btn-primary btn-lg" onclick="backtomain();" role="button">Назад</a>
+					<a class="btn btn-primary btn-lg" data-bind="click: $root.backtomain" role="button">Назад</a>
 				</p>
 			</div>
 			<div class="col-md-4">	
 				<section class="addform">
-					<form name="login" action="/addadv" method="POST" accept-charset="utf-8">
+					<form id="addadvform" action="/saveadv" method="POST" accept-charset="utf-8">
 						<div class="row">
 							<div class="col-md-4">
 								<label for="nameadv">Название обьявления</label>
@@ -215,11 +262,7 @@
 								<label for="mark">Марка</label>
 							</div>
 							<div class="col-md-6">
-								<select>
-									{% for mark in automarks %}
-									<option>{{mark.name}}</option>
-									{% endfor %}
-								</select>
+								<select data-bind="options: automarks, optionsText: 'name', value: selectedMark, optionsCaption: 'Выберите модель', event: {change: $root.selectMark }"></select>
 							</div>
 						</div>
 						<div class="row">
@@ -227,9 +270,7 @@
 								<label for="car">Модель</label>
 							</div>
 							<div class="col-md-6">
-								<select>
-									<option>Сначала выберите марку</option>
-								</select>
+								<select data-bind="options: models, optionsText: 'name', value: selectedModel, optionsCaption: 'Сначала выберите марку', event: {change: $root.selectModel }"></select>
 							</div>
 						</div>
 						<div class="row">
@@ -237,28 +278,16 @@
 								<label for="car">Машина</label>
 							</div>
 							<div class="col-md-6">
-								<select>
-								   <option>Выберите модель и марку</option>
-								</select>
+								<select data-bind="options: cars, optionsText: function(item) { return item.body_type() + ' (' + item.motor_power() + '/' + item.color() + ')'; }, value: selectedCar, optionsCaption: 'Выберите модель и марку'"></select>
 							</div>
 						</div>
 
 						<div class="row" >
 							<div class="col-md-4"></div>
-							 <div class="col-md-4">
-								<input type="submit" value="Login">
+							 <div id="cc" class="col-md-4">
+								<input data-bind="click: $root.saveform" type="button" value="Submit">
 							</div>
 						</div>
-						{% if status == 1 %}
-							<div>
-								<p class="error">Логин или пароль указаны неправильно</p>
-							</div>
-						{% endif %}
-						{% if status == 0 %}
-							<div>
-								<p class="ok">Добро пожаловать {{ login }}</p>
-							</div>
-						{% endif %}
 					</form>
 				</section>
 			</div>

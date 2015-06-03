@@ -54,7 +54,6 @@ def saveadv():
         if selectedcar:
             adv = Adv(user=getuser(), name=request.form['nameadv'], year=request.form['year'], price=request.form['price'], comments=request.form['comm'], mileage=request.form['milage'], car=selectedcar)
             flush()
-            url = url_for('index')
             return str(adv.id)
         else:
             return '-1'

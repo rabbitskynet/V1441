@@ -73,7 +73,6 @@
 		selectModel: function() {
 			if(model.selectedModel())
 			{
-				//~ console.log('/get-cars-bymodel/' + model.selectedModel().name());
 				getData('/get-cars-bymodel/' + model.selectedModel().name(), function(data) {
 					model.cars([]);
 					model.cars(data.cars);
